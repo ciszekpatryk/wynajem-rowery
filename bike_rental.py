@@ -5,23 +5,22 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# Zmienne globalne dla katalogów
 DATA_DIR = "data"
 DAILY_REPORTS_DIR = os.path.join(DATA_DIR, "daily_reports")
 
-# Funkcja tworząca wymagane katalogi
+# Tworzenie wymaganych katalogów
 def ensure_data_directory():
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
     if not os.path.exists(DAILY_REPORTS_DIR):
         os.makedirs(DAILY_REPORTS_DIR)
 
-# Funkcja do obliczania kosztu wynajmu
+# Obliczanie kosztu wynajmu
 def calculate_cost(rental_duration):
     cost_per_hour = 10  # Cena za godzinę
     return rental_duration * cost_per_hour
 
-# Funkcja do zapisywania wynajmu do pliku
+# Zapisywanie wynajmu do pliku
 def save_rental(rental):
     ensure_data_directory()
     rentals_file = os.path.join(DATA_DIR, "rentals.json")
@@ -37,7 +36,7 @@ def save_rental(rental):
     with open(rentals_file, "w") as file:
         json.dump(rentals, file, indent=4)
 
-# Funkcja wynajmu roweru
+# Wynajem roweru
 def rent_bike(customer_name, rental_duration):
     total_cost = calculate_cost(rental_duration)
     rental = {
@@ -48,7 +47,7 @@ def rent_bike(customer_name, rental_duration):
     save_rental(rental)
     print(f"{customer_name} wynajął rower na {rental_duration} godzin. Koszt: {total_cost} zł.")
 
-# Funkcja do odczytu wynajmów
+# Odczyt wynajmów
 def load_rentals():
     ensure_data_directory()
     rentals_file = os.path.join(DATA_DIR, "rentals.json")
@@ -63,7 +62,7 @@ def load_rentals():
     for rental in rentals:
         print(f"{rental['customer_name']} wynajął rower na {rental['rental_duration']} godzin. Koszt: {rental['total_cost']} zł.")
 
-# Funkcja do anulowania wynajmu
+# Anulowanie wynajmu
 def cancel_rental(customer_name):
     ensure_data_directory()
     rentals_file = os.path.join(DATA_DIR, "rentals.json")
@@ -82,7 +81,7 @@ def cancel_rental(customer_name):
 
     print(f"Wynajem {customer_name} został anulowany.")
 
-# Funkcja do generowania raportu dziennego
+# Generowanie raportu dziennego
 def generate_daily_report():
     ensure_data_directory()
     today = datetime.now().strftime("%Y-%m-%d")
@@ -101,7 +100,7 @@ def generate_daily_report():
 
     print(f"Raport dzienny zapisany do {report_file}.")
 
-# Funkcja do wysyłania faktury e-mail
+# Wysyłanie faktury e-mail
 def send_rental_invoice_email(customer_email, rental_details):
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
@@ -129,7 +128,7 @@ def send_rental_invoice_email(customer_email, rental_details):
     except smtplib.SMTPException as e:
         print(f"Błąd przy wysyłaniu e-maila: {e}")
 
-# Główna część programu
+# Main
 if __name__ == "__main__":
     while True:
         print("\n1. Wynajmij rower")
