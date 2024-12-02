@@ -5,13 +5,16 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# Zmienna globalna dla katalogu danych
+# Zmienne globalne dla katalogów
 DATA_DIR = "data"
+DAILY_REPORTS_DIR = os.path.join(DATA_DIR, "daily_reports")
 
-# Funkcja tworząca katalog 'data', jeśli nie istnieje
+# Funkcja tworząca wymagane katalogi
 def ensure_data_directory():
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
+    if not os.path.exists(DAILY_REPORTS_DIR):
+        os.makedirs(DAILY_REPORTS_DIR)
 
 # Funkcja do obliczania kosztu wynajmu
 def calculate_cost(rental_duration):
@@ -83,7 +86,7 @@ def cancel_rental(customer_name):
 def generate_daily_report():
     ensure_data_directory()
     today = datetime.now().strftime("%Y-%m-%d")
-    report_file = os.path.join(DATA_DIR, f"daily_report_{today}.json")
+    report_file = os.path.join(DAILY_REPORTS_DIR, f"daily_report_{today}.json")
     rentals_file = os.path.join(DATA_DIR, "rentals.json")
     
     if not os.path.exists(rentals_file):
